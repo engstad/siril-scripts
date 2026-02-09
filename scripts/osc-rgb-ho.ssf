@@ -1,0 +1,22 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Pollution RGB
+#
+###########################################################################################
+
+cd Light/Ha-Oiii
+convert light -out=../../process/ha-oiii
+cd ../../process/ha-oiii
+
+# calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e60_g100_o50_t3_stacked -flat=../../flats-ha-oiii-stacked -cc=dark -cfa -debayer -equalize_cfa
+calibrate light -flat=../../flats-ha-oiii-stacked -cfa -debayer -equalize_cfa 
+          
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -rgb_equal -32b -out=ha-oiii
+mirrorx_single ha-oiii
+
+load ha-oiii
+save ../../ha-oiii_result_$LIVETIME:%d$s
+# close

@@ -1,0 +1,9 @@
+requires 1.3.4
+
+# Convert Dark Frames to .fit files
+convert dark -out=process
+cd process
+
+# Stack Dark Frames to dark_stacked.fit
+stack dark rej 3 3 -nonorm -out=../dark_stacked
+cd ..

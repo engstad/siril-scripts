@@ -1,0 +1,17 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+convert flats -out=process
+cd process
+
+# Calibrate Flat Frames
+# calibrate flats -bias="=10*$OFFSET"
+calibrate flats -bias="=500"
+# -bias="$OFFSET*10"
+# -bias="=500"
+# "=$OFFSET*10"
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats rej 3 3 -norm=mul -out=../flat-stacked
+cd ..
+load flat-stacked

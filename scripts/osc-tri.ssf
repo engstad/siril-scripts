@@ -1,0 +1,22 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Pollution RGB
+#
+###########################################################################################
+
+cd Light/Triband
+convert light -out=../../process/triband
+cd ../../process/triband
+
+calibrate light -dark=../../dark_stacked -flat=../../flats-triband-stacked -cc=dark -cfa -debayer -equalize_cfa
+# calibrate light -flat=../../flats-triband-stacked -cfa -debayer -equalize_cfa 
+          
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -rgb_equal -32b -out=triband
+mirrorx_single triband
+
+load triband
+save ../../triband_result_$LIVETIME:%d$s
+# close

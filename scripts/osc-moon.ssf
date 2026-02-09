@@ -1,0 +1,23 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Moon RGB
+#
+###########################################################################################
+
+cd Light/Moon
+convert light -out=../../process/moon
+cd ../../process/moon
+
+# calibrate light -bias=../../../Masters/bias_stacked -dark=../../../Masters/dark_stacked -cc=dark -cfa -debayer -equalize_cfa -opt=exp
+# calibrate light -cfa -debayer -equalize_cfa -opt=exp
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e300_g100_o50_t3_stacked -flat=../../flats-moon-stacked -cc=dark -cfa -debayer -equalize_cfa 
+
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=moon
+mirrorx_single moon
+
+load moon
+save ../../moon_result_$LIVETIME:%d$s
+close

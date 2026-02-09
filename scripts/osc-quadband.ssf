@@ -1,0 +1,23 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Quadband RGB
+#
+###########################################################################################
+
+cd Light/Quadband
+convert light -out=../../process/quadband
+cd ../../process/quadband
+
+# calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e60_g100_o50_t3_stacked -flat=../../flats-quadband-stacked -cc=dark -cfa -debayer -equalize_cfa
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e60_g100_o50_t3_stacked -cfa -debayer -equalize_cfa 
+
+
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=quadband
+mirrorx_single quadband
+
+load quadband
+save ../../quadband_result_$LIVETIME:%d$s
+close

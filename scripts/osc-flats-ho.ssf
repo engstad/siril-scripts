@@ -1,0 +1,13 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+cd Flat/HA-OIII
+convert flats-ha-oiii -out=../../process/flats-ha-oiii
+cd ../../process/flats-ha-oiii
+
+# Calibrate Flat Frames
+calibrate flats-ha-oiii -bias="=500"
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats-ha-oiii rej 3 3 -norm=mul -out=../../flats-ha-oiii-stacked
+cd ../..

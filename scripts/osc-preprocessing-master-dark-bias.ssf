@@ -1,0 +1,49 @@
+requires 1.2.0
+
+# Convert Light Frames to .fit files
+cd Light/HA-OIII
+convert light -out=../../process/ha-oiii
+cd ../../process/ha-oiii
+
+# Calibrate Light Frames
+# calibrate light -dark=../../masters/dark_stacked -flat=../../masters/pp_flat-ha-oiii_stacked -cc=dark -cfa -equalize_cfa -debayer
+# calibrate light -flat=../../masters/pp_flat-ha-oiii_stacked -cfa -equalize_cfa -debayer
+calibrate light -cfa -equalize_cfa -debayer
+
+# Align lights
+register pp_light
+
+# Stack calibrated lights to result.fit
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -rgb_equal -out=result
+
+# Flip if required
+load result
+mirrorx -bottomup
+save ../ha-oiii-result_$LIVETIME:%d$s
+
+cd ../..
+
+# Convert Light Frames to .fit files
+cd Light/OIII-SII
+convert light -out=../../process/oiii-sii
+cd ../../process/oiii-sii
+
+# Calibrate Light Frames
+# calibrate light -flat=../../masters/pp_flat-oiii-sii_stacked -cfa -equalize_cfa -debayer
+calibrate light -cfa -equalize_cfa -debayer
+
+# Align lights
+register pp_light
+
+# Stack calibrated lights to result.fit
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -rgb_equal -out=result
+
+# Flip if required
+load result
+mirrorx -bottomup
+save ../oiii-sii-result_$LIVETIME:%d$s
+
+cd ../..
+
+
+close

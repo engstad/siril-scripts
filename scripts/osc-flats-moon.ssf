@@ -1,0 +1,14 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+cd Flat/Moon
+convert flats-moon -out=../../process/flats-moon
+cd ../../process/flats-moon
+
+# Calibrate Flat Frames
+calibrate flats-moon -bias="=500"
+# "=$OFFSET*10" 
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats-moon rej 3 3 -norm=mul -out=../../flats-moon-stacked
+cd ../..

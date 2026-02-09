@@ -1,0 +1,24 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Clear RGB
+#
+###########################################################################################
+
+cd Light/Clear
+convert light -out=../../process/clear
+cd ../../process/clear
+
+# calibrate light -bias=../../../Masters/bias_stacked -dark=../../../Masters/dark_stacked -cc=dark -cfa -debayer -equalize_cfa -opt=exp
+# calibrate light -cfa -debayer -equalize_cfa -opt=exp
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e300_g100_o50_t3_stacked -flat=../../flats-clear-stacked -cc=dark -cfa -debayer -equalize_cfa 
+
+
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=clear
+mirrorx_single clear
+
+load clear
+save ../../clear_result_$LIVETIME:%d$s
+close

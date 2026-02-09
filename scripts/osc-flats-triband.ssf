@@ -1,0 +1,14 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+cd Flat/Triband
+convert flats-triband -out=../../process/flats-triband
+cd ../../process/flats-triband
+
+# Calibrate Flat Frames
+calibrate flats-triband -bias="=500"
+# "=$OFFSET*10" 
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats-triband rej 3 3 -norm=mul -out=../../flats-triband-stacked
+cd ../..

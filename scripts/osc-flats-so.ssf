@@ -1,0 +1,15 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+cd Flat/SII-OIII
+convert flats-sii-oiii -out=../../process/flats-sii-oiii
+cd ../../process/flats-sii-oiii
+
+# Calibrate Flat Frames
+calibrate flats-sii-oiii
+# -bias="=500"
+# "=$OFFSET*10"
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats-sii-oiii rej 3 3 -norm=mul -out=../../flats-sii-oiii-stacked
+cd ../..

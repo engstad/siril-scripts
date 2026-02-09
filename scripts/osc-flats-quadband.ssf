@@ -1,0 +1,14 @@
+requires 1.3.4
+
+# Convert Flat Frames to .fit files
+cd Flat/Quadband
+convert flats-quadband -out=../../process/flats-quadband
+cd ../../process/flats-quadband
+
+# Calibrate Flat Frames
+calibrate flats-quadband
+# "=$OFFSET*10" 
+
+# Stack Flat Frames to pp_flat_stacked.fit
+stack pp_flats-quadband rej 3 3 -norm=mul -out=../../flats-quadband-stacked
+cd ../..

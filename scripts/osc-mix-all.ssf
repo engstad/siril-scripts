@@ -1,0 +1,19 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# RGB
+#
+###########################################################################################
+
+cd process/all
+convert light -out=../rgb
+cd ../rgb
+
+# calibrate light -bias=../../Masters/bias_stacked -dark=../../Masters/dark_stacked -cc=dark -cfa -debayer -equalize_cfa -opt=exp
+calibrate light -cfa -debayer -equalize_cfa -opt=exp
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=result
+mirrorx_single result
+
+cd ../..
