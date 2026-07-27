@@ -1,0 +1,15 @@
+requires 1.2.0
+
+cd Light/HA-OIII
+convert light -out=../../process/ho
+cd ../../process/ho
+
+# calibrate light -dark=../../dark_stacked -cc=dark -cfa -debayer -equalize_cfa
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_e120_g100_o50_t3_stacked -cfa -debayer -equalize_cfa
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=ho
+mirrorx_single ho
+
+load ho
+save ../../ho_preview_result_$LIVETIME:%d$s
+# close

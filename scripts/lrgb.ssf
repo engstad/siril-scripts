@@ -1,0 +1,79 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Lum
+#
+###########################################################################################
+
+cd Light/Lum
+convert light -out=../../process/lum
+cd ../../process/lum
+
+calibrate light -bias="=200+4*$OFFSET" -flat=../../../Flat/lum-flat
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square -flat=../../../Flat/lum-flat
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=lum
+mirrorx_single lum
+load lum
+save ../../lum_result_$LIVETIME:%d$s
+cd ../..
+
+###########################################################################################
+#
+# Red
+#
+###########################################################################################
+
+cd Light/Red
+convert light -out=../../process/red
+cd ../../process/red
+
+calibrate light -bias="=200"
+#-flat=../../../Flat/red-flat
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square
+#-flat=../../../Flat/red-flat
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=red
+mirrorx_single red
+load red
+save ../../red_result_$LIVETIME:%d$s
+cd ../..
+
+###########################################################################################
+#
+# Green
+#
+###########################################################################################
+
+cd Light/Green
+convert light -out=../../process/green
+cd ../../process/green
+
+calibrate light -bias="=200"
+# -flat=../../../Flat/green-flat
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square
+# -flat=../../../Flat/green-flat
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=green
+mirrorx_single green
+load green
+save ../../green_result_$LIVETIME:%d$s
+cd ../..
+
+###########################################################################################
+#
+# Blue
+#
+###########################################################################################
+
+cd Light/Blue
+convert light -out=../../process/blue
+cd ../../process/blue
+
+calibrate light -bias="=200"
+#-flat=../../../Flat/blue-flat
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square
+#-flat=../../../Flat/blue-flat 
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=blue
+mirrorx_single blue
+load blue
+save ../../blue_result_$LIVETIME:%d$s
+cd ../..

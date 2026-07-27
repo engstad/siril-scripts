@@ -13,7 +13,8 @@ cd ../../process/ha-oiii
 
 # Calibrate Light Frames
 # calibrate light -dark=../../Masters/dark_stacked -cc=dark -cfa -equalize_cfa
-calibrate light -cfa
+calibrate light -dark=/Volumes/T9/Pictures/Masters/dark_e60_g100_o50_t3_stacked -flat=../../flats-ha-oiii-stacked -cc=dark -cfa -equalize_cfa
+# calibrate light -cfa
 
 seqextract_HaOIII pp_light -resample=ha
 
@@ -48,14 +49,15 @@ save ../hoso/hoso_00002
 ###########################################################################################
 
 # Convert Light Frames to .fit files
-cd ../../Light/OIII-SII
+cd ../../Light/SII-OIII
 convert light -out=../../process/sii-oiii
 cd ../../process/sii-oiii
 
 # Calibrate Light Frames
 # calibrate light -dark=../Masters/dark_stacked -flat=../Masters/pp_flat_stacked -cc=dark -cfa -equalize_cfa
 # calibrate light -dark=../../Masters/dark_stacked -cc=dark -cfa -equalize_cfa
-calibrate light
+# calibrate light
+calibrate light -dark=/Volumes/T9/Pictures/Masters/dark_e120_g100_o50_t3_stacked -flat=../../flats-sii-oiii-stacked -cc=dark -cfa -equalize_cfa
 
 seqextract_HaOIII pp_light -resample=ha
 

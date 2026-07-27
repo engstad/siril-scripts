@@ -1,0 +1,22 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Light RGB
+#
+###########################################################################################
+
+cd Light
+convert light -out=../process
+cd ../process
+
+# calibrate light -bias=/Volumes/T9/Pictures/Masters/bias_stacked -dark=/Volumes/T9/Pictures/Masters/dark_stacked -cc=dark -cfa -debayer -equalize_cfa -opt=exp
+calibrate light -cfa -debayer -equalize_cfa -opt=exp
+# calibrate light -dark=/Volumes/T9/Pictures/Masters/dark_e60_g100_o50_t3_stacked -flat=../../flats-light-stacked -cc=dark -cfa -debayer -equalize_cfa 
+
+register pp_light
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=light
+mirrorx_single light
+
+load light
+save ../result_$LIVETIME:%d$s

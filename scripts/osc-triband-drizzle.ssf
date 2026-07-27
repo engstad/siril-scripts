@@ -1,0 +1,21 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Triband RGB
+#
+###########################################################################################
+
+cd Light/Triband
+convert light -out=../../process/triband
+cd ../../process/triband
+
+calibrate light -flat=../../flat-triband -dark=/Users/pengstad/Pictures/Masters/dark_e120_g100_o50_t3_stacked -cc=dark -cfa -equalize_cfa
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square -flat=../../flat-triband
+stack r_pp_light rej 1.5 1.5 -norm=addscale -output_norm -rgb_equal -32b -out=triband_drizzled
+
+
+load triband_drizzled
+mirrorx -bottomup
+save ../../triband_drizzled_result_$LIVETIME:%d$s
+cd ../..

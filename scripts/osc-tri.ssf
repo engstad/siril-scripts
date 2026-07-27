@@ -10,7 +10,7 @@ cd Light/Triband
 convert light -out=../../process/triband
 cd ../../process/triband
 
-calibrate light -dark=../../dark_stacked -flat=../../flats-triband-stacked -cc=dark -cfa -debayer -equalize_cfa
+calibrate light -dark=/Volumes/T9/Pictures/Masters/dark_e120_g100_o50_t3_stacked -flat=../../flats-triband-stacked -cc=dark -cfa -debayer -equalize_cfa
 # calibrate light -flat=../../flats-triband-stacked -cfa -debayer -equalize_cfa 
           
 register pp_light

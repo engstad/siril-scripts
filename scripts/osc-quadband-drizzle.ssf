@@ -1,0 +1,20 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Quadband RGB
+#
+###########################################################################################
+
+cd Light/Quadband
+convert light -out=../../process/quadband
+cd ../../process/quadband
+
+calibrate light -dark=/Volumes/T9/Pictures/Masters/dark_e60_g100_o50_t3_stacked -flat=../../flats-quadband-stacked -cc=dark -cfa -equalize_cfa
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square -flat=../../flats-quadband-stacked
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -rgb_equal -32b -out=quadband_drizzled
+
+load quadband_drizzled
+mirrorx -bottomup
+save ../../quadband_drizzled_result_$LIVETIME:%d$s
+cd ../..

@@ -1,0 +1,39 @@
+requires 1.2.0
+
+###########################################################################################
+#
+# Hα
+#
+###########################################################################################
+
+cd Light/Ha
+convert light -out=../../process/ha
+cd ../../process/ha
+
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_zeus_e120_g125_o50_t-10 -flat=../../../Flat/ha-flat -cc=dark
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square -flat=../../../Flat/ha-flat
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=ha
+mirrorx_single ha
+
+load ha
+save ../../ha_result_$LIVETIME:%d$s
+cd ../..
+
+###########################################################################################
+#
+# Oiii
+#
+###########################################################################################
+
+cd Light/Oiii
+convert light -out=../../process/oiii
+cd ../../process/oiii
+
+calibrate light -dark=/Users/pengstad/Pictures/Masters/dark_zeus_e120_g125_o50_t-10 -flat=../../../Flat/oiii-flat -cc=dark
+register pp_light -drizzle -scale=1 -pixfrac=1.0 -kernel=square -flat=../../../Flat/oiii-flat
+stack r_pp_light rej 3 3 -norm=addscale -output_norm -32b -out=oiii
+mirrorx_single oiii
+
+load oiii
+save ../../oiii_result_$LIVETIME:%d$s
+cd ../..
